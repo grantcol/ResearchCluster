@@ -1,4 +1,5 @@
 <!-- index.php -->
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -48,6 +49,7 @@
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="#">Home</a></li>
             <li role="presentation"><a href="https://github.com/grantcol/ResearchCluster">About</a></li>
+            <li role="presentation"><a href="history.php">History</a></li>
           </ul>
         </nav>
         <h3 class="text-muted">Research Team 8</h3>
@@ -60,18 +62,25 @@
               <label class="sr-only" for="searchField">Search</label>
               <input class="form-control" id="searchField" placeholder="Author, Keyword, Topic" onkeyup="autoCompleteQuery();">
               <ul id="ac_list">
-                <li><a href="#" class="dropdown_link">Machine Learning</a></li>
+                <!--li><a href="#" class="dropdown_link">Machine Learning</a></li>
                 <li><a href="#" class="dropdown_link">Robot</a></li>
-                <li><a href="#" class="dropdown_link">Web</a></li>
+                <li><a href="#" class="dropdown_link">Web</a></li>-->
               </ul>
             </div>
             <div class="form-group">
-              <select class="form-control">
+              <select class="form-control" id="freqField">
                 <option>5</option>
                 <option>10</option>
                 <option>15</option>
                 <option>20</option>
                 <option>25</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <select class="form-control" id="typeField">
+                <option>Topic</option>
+                <option>Author</option>
+                <option>Publication</option>
               </select>
             </div>
             <a href="#" id="search_btn" class="btn btn-primary">Search</a>
@@ -117,11 +126,13 @@
     $("#search_btn").click(function(){
       NProgress.start();
        var q = $("#searchField").val();
+       var t = $("#typeField option:selected").text();
+       var f = $("#freqField option:selected").text();
        console.log(q);
         $.ajax({ 
           url : 'php/request_local.php',
           type : 'POST',
-          data : { query : q },
+          data : { query : q,  type : t, freq : f},
           success : function(data) {
             console.log(data);
             data = JSON.parse(data);

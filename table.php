@@ -1,12 +1,13 @@
-<!-- index.php -->
 <?php 
-  //recive some result data from SESSION
+session_start();
 include 'php/funcs.php';
-
 $word = $_GET["word"];
 $req = buildRequest( $word );
 $response = execRequest( $req );
 $xml = new SimpleXMLElement($response);
+$_SESSION['curr_query_xml'] = xmlObj2Str($xml);
+$_SESSION["xml_p"] = "null";
+$xml_p = array();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,41 +58,42 @@ $xml = new SimpleXMLElement($response);
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="index.php">Home</a></li>
             <li role="presentation"><a href="https://github.com/grantcol/ResearchCluster">About</a></li>
+            <li role="presentation"><a href="history.php">History</a></li>
           </ul>
         </nav>
         <h3 class="text-muted">Research Team 8</h3>
       </div>
-
-      <!--<div class="jumbotron">
-        <h3>Search Reasearch Papers</h3>
-          <form class="form-inline">
-            <div class="form-group">
-              <label class="sr-only" for="searchField">Search</label>
-              <input class="form-control" id="searchField" placeholder="Author, Keyword, Topic" onkeyup="autoCompleteQuery();">
-              <ul id="ac_list">
-                <li><a href="#" class="dropdown_link">Machine Learning</a></li>
-                <li><a href="#" class="dropdown_link">Robot</a></li>
-                <li><a href="#" class="dropdown_link">Web</a></li>
-              </ul>
-            </div>
-            <div class="form-group">
-              <select class="form-control">
-                <option>5</option>
-                <option>10</option>
-                <option>15</option>
-                <option>20</option>
-                <option>25</option>
-              </select>
-            </div>
-            <a href="#" id="search_btn" class="btn btn-primary">Search</a>
-          </form>
-      </div>-->
+      <div id="sub_cloud"></div>
+      <div>
+        <div class="btn-group" role="group" aria-label="...">
+          <a class="btn btn-default" id="save_btn" href="#" role="button">Save Results</a>
+          <a class="btn btn-default" id="sub_btn" href="#" role="button">Subset Select</a>
+        </div>
+      </div>
       <table id="result_table" class="table table-hover table-condensed">
         <?php
         $count = 0;
         foreach($xml->document as $doc)
         {
-          echo "<tr><td>".$count.".</td><td>";
+          echo "<tr><td>
+
+                <div class='checkbox'>
+                <label>
+                  <input type='checkbox' value='' id='sub_".$count."'>
+                  Sub 
+                </label>
+                </div>
+
+                <div class='checkbox'>
+                <label>
+                  <input type='checkbox' value='' id='save_".$count."'>
+                  Save
+                </label>
+                </div>
+
+                </td>";
+
+          echo "<td>".$count.".</td><td>";
           echo "<p>".linkify($doc->title)."</p>";
           $a_str = "<p>";
           $authors = explode(";", $doc->authors);
@@ -104,8 +106,10 @@ $xml = new SimpleXMLElement($response);
           echo "<p>".$doc->pubtitle."</p>";
           echo "<p><a href=".$doc->pdf.">PDF</a></p>";
           echo "</td></tr>";
+          $xml_p[$count] = xmlDoc2Str($doc);
           $count++;
         }
+        $_SESSION["xml_p"] = $xml_p;
         ?>
       </table>
 
@@ -117,36 +121,57 @@ $xml = new SimpleXMLElement($response);
     <script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
     <script src='../js/nprogress.js'></script>
     <script type="text/javascript">
-    /*$("#search_btn").click(function(){
-      NProgress.start();
-       var q = $("#searchField").val();
+
+    function getSelected(sel) {
+      var selected = [];
+      var table = document.getElementById("result_table");
+      for (var i = 0, row; row = table.rows[i]; i++) {
+         var check = document.getElementById(sel+i);
+         if(check.checked) { selected.push(i); console.log("selected "+i); }
+      }
+      return selected;
+    }
+
+    $("#save_btn").click(function() {
+      var selected = getSelected("save_");
+      if(selected.length > 0) 
+      {
+        NProgress.start();
         $.ajax({ 
-          url : 'php/request_local.php',
+          url : 'export.php',
           type : 'POST',
-          data : { query : q },
+          data : { keys : selected },
           success : function(data) {
             console.log(data);
-            data = JSON.parse(data);
-            $("#word_cloud").html(data);
+            //data = JSON.parse(data);
             NProgress.done();
           },
           error: function (jqXHR, textStatus, errorThrown) { console.log("REQUEST FAILED"); }
         });
-    });
-    $(".dropdown_link").click(function(){
-      var text = $(this).text();
-      $("#searchField").val(text);
-    });
-    function autoCompleteQuery() {
-      var minLen = 0;
-      var hintStr = $("#searchField").val();
-      if(hintStr.length > minLen) {
-        $('#ac_list').show();
       }
-      else {
-        $('#ac_list').hide();
+      else  { alert("No documents selected!"); }
+    });
+
+    $("#sub_btn").click(function() {
+      var selected = getSelected("sub_");
+      if(selected.length > 0) {
+        NProgress.start();
+        $.ajax({
+          url : 'subCloud.php',
+          type : 'POST',
+          data : { keys : selected },
+          success : function(data) {
+            data = JSON.parse(data);
+            console.log(data);
+            $("#sub_cloud").html(data);
+            NProgress.done();
+          },
+          error : function (jqXHR, textStatus, errorThrown) { console.log("REQUEST FAILED"); }
+        });
       }
-    }*/
+      else { alert("No documents selected!"); }
+    });
+
     </script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->

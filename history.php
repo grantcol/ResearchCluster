@@ -1,14 +1,10 @@
+<!-- index.php -->
 <?php 
-include "php/funcs.php";
-
-//get the word from the GET params 
-$type  = $_GET["type"];
-$word  = $_GET["word"];
-
-$cloud = searchIEEE($word, $type);
-
+  //recive some result data from SESSION
+session_start();
+include 'php/funcs.php';
+$history = $_SESSION["history"];
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -56,17 +52,22 @@ $cloud = searchIEEE($word, $type);
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="index.php">Home</a></li>
+            <li role="presentation"><a href="index.php">Home</a></li>
             <li role="presentation"><a href="https://github.com/grantcol/ResearchCluster">About</a></li>
-            <li role="presentation"><a href="history.php">History</a></li>
+            <li role="presentation" class="active"><a href="history.php">History</a></li>
           </ul>
         </nav>
         <h3 class="text-muted">Research Team 8</h3>
       </div>
+      <table id="result_table" class="table table-hover table-condensed">
+        <?php
 
-      <div id="word_cloud">
-      <?php echo json_decode($cloud) ?>
-      </div>
+        foreach($history as $date => $search) {
+          echo "<tr><td>".$date."</td><td><a href='cloud.php?type=word&word=".$search."'>".$search."</a></td></tr>"; 
+        }
+
+        ?>
+      </table>
 
       <footer class="footer">
         <p>&copy; CS310 Team 8, Spring 2015</p>
@@ -75,8 +76,6 @@ $cloud = searchIEEE($word, $type);
     </div> <!-- /container -->
     <script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
     <script src='../js/nprogress.js'></script>
-    <script type="text/javascript">
-    </script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
   </body>

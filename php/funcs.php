@@ -1,4 +1,5 @@
 <?php 
+session_start();
 include "Document.php";
 
 function cluster($documents) {
@@ -103,6 +104,59 @@ function docify($xml) {
 		$docs[] = $newDoc;
 	}
 	return $docs;
+}
+
+function docify_s($sXml) {
+	$docs = array();
+	foreach($sXml as $doc) {
+		$newDoc = new Document($doc->title, $doc->authors, $doc->pubtitle, $doc->abstract, $doc->pdf);
+		$docs[] = $newDoc;
+	}
+	return $docs;
+}
+
+function xmlDoc2Str($doc) {
+	$sDoc = new stdClass();
+	$sDoc->title	= (string)$doc->title;
+	$sDoc->authors 	= (string)$doc->authors;
+	$sDoc->pubtitle = (string)$doc->pubtitle;
+	$sDoc->pdf 		= (string)$doc->pdf;
+	$sDoc->abstract	= (string)$doc->abstract;
+	return $sDoc;
+}
+
+function xmlObj2Str($xml) {
+	$sXml = array();
+	$count = 0;
+	foreach($xml->document as $doc) {
+		$sXml[$count] = xmlDoc2Str($doc); 
+		$count++;
+	}
+	return $sXml;
+}
+
+function writeTable($table) {
+	$f = fopen("search_results.txt", "w");
+	fwrite($f, "Search Results from ".date('l jS \of F Y h:i:s A')."\n\n");
+	$count = 1;
+	foreach($table as $r) {
+		$str_rep = $count.".\t";
+		$str_rep .= $r->title."\n\t";
+		$str_rep .= $r->authors."\n\t";
+		$str_rep .= $r->pubtitle."\n\t";
+		$str_rep .= $r->pdf."\n";
+		fwrite($f, $str_rep);
+		$count++;
+	}
+	fclose($f);
+}
+
+function saveSearch($searchQuery) {
+	date_default_timezone_set('America/Los Angeles');
+	$date = date('m/d/Y h:i:s a', time());
+	$history = $_SESSION["history"];
+	$history[$date] = $searchQuery;
+	$_SESSION["history"] = $history;
 }
 
 function searchIEEE($query, $type) {
