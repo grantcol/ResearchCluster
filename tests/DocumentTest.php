@@ -33,7 +33,6 @@ class DocumentVector
 
 	function getFreq($term) { return $this->mVSpace[$term]; }
 }
-
 class DocumentTest extends PHPUnit_Framework_TestCase
 {
 	/** 
@@ -43,7 +42,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase
 		$doc = null;
 		$this->assertEquals($doc, null);
 
-		$doc = new Documemnt("testDoc");
+		$doc = new Document($title, $auth, $db, $cont, $url);
 		$this->assertEquals($doc->mTitle, $title);
 		$this->assertEquals($doc->mAuthor, $auth);
 		$this->assertEquals($doc->mDB, $db);

@@ -145,6 +145,7 @@ $xml_p = array();
             console.log(data);
             //data = JSON.parse(data);
             NProgress.done();
+            window.open("search_results.txt", "_blank");
           },
           error: function (jqXHR, textStatus, errorThrown) { console.log("REQUEST FAILED"); }
         });
