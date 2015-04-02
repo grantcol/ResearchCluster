@@ -12,10 +12,10 @@ Unlike last time, however, there are a few upgrades to the system to make it a l
 ##TF-IDF
 `W_i = TF_i * N/DF_i`
 
-- W_i:	Weight of word i
-- TF_i:	Term frequency of word i. That is, how many times word i occurs across the document cluster
-- N:	The number of documents in the document cluster
-- DF_i:	Document frequency. That is the number of documents word i occurs in
+- `W_i`	Weight of word i
+- `TF_i`	Term frequency of word i. That is, how many times word i occurs across the document cluster
+- `N`	The number of documents in the document cluster
+- `DF_i`	Document frequency. That is the number of documents word i occurs in
 
 The weight of word i (W_i) can be interpreted as follows. 
 
