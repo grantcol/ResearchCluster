@@ -2,6 +2,7 @@
 
 ## Premise
 Similar to project one, this project will focus on aggregating text documents returned from a user search query and generate: 
+
 1. A word cloud of frequent words
 2. A list of relevant document titles
 3. A link to a pdf version of the document
