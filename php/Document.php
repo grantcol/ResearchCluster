@@ -28,7 +28,7 @@ class DocumentVector
 	function __construct($dcont) {
 		//vectorize the string
 		$e = explode(" ", $dcont);
-		foreach($e as $word){
+		foreach($e[0] as $word){
 			$this->mVSpace[$word]++;
 		}
 	}
@@ -39,11 +39,9 @@ class DocumentVector
 class DocumentCluster
 {
 	public $mCluster;
-	public $mCenTerm;
 	public $mCluster_W;
 
-	function __construct($ct) {
-		$this->mCenTerm 	= $ct;
+	function __construct() {
 		$this->mCluster 	= new Array();
 		$this->mCluster_W 	= new Array();
 	}
@@ -97,12 +95,5 @@ class DocumentCluster
 
 		}
 	}
-
 }
-
-
-
-
-
-
 ?>
