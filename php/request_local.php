@@ -27,11 +27,24 @@ function getWordCloud($cluster_w) {
 	return $cloud;
 }
 function getSize($freq){
-	if($freq > 1) return $freq;
+	if($freq > 1) return $freq/2;
 	else if($freq <= 1) return 10;
 }
 function getTestDocuments() {
-	$dim = array("latch.txt", "friends.txt", "knowyourself.txt", "legend.txt");
+	$dim;
+	if($query == "Machine Learning"){
+		$dim = array("test002.txt", "test003.txt");
+	}
+	else if($query == "Web"){
+		$dim = array("test004.txt");
+	}
+	else if($query == "Robot"){
+		$dim = array("test001.txt");
+	}
+	else{
+		$dim = array("test001.txt", "test002.txt", "test003.txt", "test004.txt");
+	}
+
 	$docs = array();
 	foreach($dim as $d) {
 		$cont = file_get_contents($d);
@@ -40,6 +53,7 @@ function getTestDocuments() {
 	}
 	return $docs;
 }
+$query = $_POST["query"];
 $r = cluster(getTestDocuments());
 $cloud = getWordCloud($r);
 echo json_encode($cloud);
