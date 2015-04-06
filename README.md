@@ -25,6 +25,16 @@ The weight of word i (W_i) can be interpreted as follows.
 
 While this weighting system does more than simply weed out stop words and can be used for a much higher purpose than a boring school assignment, it allows us at least to generate a word cloud that represents a group of documents based on relevancy rather than pure frequency. I'll add that frequency alone gives the user little in the way of information other than that the author in question likes a certain word. The probability that the most common words (after pruning with even the most thorough stop word whitelist) are topically relevant still remains fairly low. This weighting scheme improves that relevancy probability significantly. 
 
+##Black Box Testing instructions
+
+To run the black-box testing using Cucumber:
+
+1) Open the terminal on the virtual machine
+2) cd /home/daler/Documents/Git/ResearchCluster/features
+3) cucumber --init
+4) cucumber todo.feature
+5) Done. 
+
 ##References
 * I got the idea for the enhancements and possibly future extensions while reading up on Mahout, a machine learning suite by Apache (for java). If you'd like to look into it I highly recommend [Mahout In Action](http://openresearch.baidu.com/u/cms/www/201210/30144944cqmu.pdf). It's a great book. 
 * _Definitely_ on the backburner for now but I came across [this](http://www.jasondavies.com/wordcloud/#%2F%2Fwww.jasondavies.com%2Fwordcloud%2Fabout%2F) while playing around with D3.js (pretty fire library for viz) and might implement in the "make it pretty" time if there is any. 
