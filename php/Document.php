@@ -28,7 +28,7 @@ class DocumentVector
 	function __construct($dcont) {
 		//vectorize the string
 		$e = explode(" ", $dcont);
-		foreach($e[0] as $word){
+		foreach($e as $word){
 			$this->mVSpace[$word]++;
 		}
 	}
@@ -42,16 +42,16 @@ class DocumentCluster
 	public $mCluster_W;
 
 	function __construct() {
-		$this->mCluster 	= new Array();
-		$this->mCluster_W 	= new Array();
+		$this->mCluster 		= array();
+		$this->mCluster_W 	= array();
 	}
 
 	function addDocument($newDoc) {
-		if(is_a($newDoc, 'DocumentVector')){
-			$this->mCluster[] = $newDoc;
+		if(is_a($newDoc->mContent, 'DocumentVector')){
+			$this->mCluster[] = $newDoc->mContent;
 		}
 		else {
-			echo "BAD DOCTYPE";
+			echo "BAD DOCTYPE ".$newDoc->mTitle;
 		}
 	}
 
@@ -62,7 +62,7 @@ class DocumentCluster
 	}
 
 	function joinDocuments() {
-		$joined = new Array(); 
+		$joined = array(); 
 		foreach($this->mCluster as $dv) {
 			foreach($dv->mVSpace as $w => $c ) {
 				$joined[$w] += $c;
