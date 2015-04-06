@@ -1,6 +1,8 @@
 <?php 
 //Document.php
 
+/*Requires black-box testing*/
+
 class Document 
 {
 	public $mTitle;
