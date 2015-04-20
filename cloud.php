@@ -1,11 +1,10 @@
 <?php 
-include_once "php/funcs.php";
+include "php/funcs.php";
 
 //get the word from the GET params 
-$word = $_GET["word"];
-//stub for getRequestResp($word);
-$docs = cluster($resp);
-$cloud = $getWordCloud($docs);
+$type  = $_GET["type"];
+$word  = $_GET["word"];
+$cloud = searchIEEE($word, $type);
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +54,7 @@ $cloud = $getWordCloud($docs);
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="#">Home</a></li>
+            <li role="presentation" class="active"><a href="index.php">Home</a></li>
             <li role="presentation"><a href="https://github.com/grantcol/ResearchCluster">About</a></li>
           </ul>
         </nav>
@@ -63,7 +62,7 @@ $cloud = $getWordCloud($docs);
       </div>
 
       <div id="word_cloud">
-      <?php echo $cloud ?>
+      <?php echo json_decode($cloud) ?>
       </div>
 
       <footer class="footer">

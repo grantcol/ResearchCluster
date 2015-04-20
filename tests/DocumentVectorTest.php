@@ -1,5 +1,5 @@
 <?php 
-
+//include "Document.php";
 /*class DocumentVector
 {
 	public $mVSpace;
@@ -24,17 +24,17 @@ class DocumentVectorTest extends PHPUnit_Framework_TestCase
 		$docVector = null;
 		$this->assertEquals($docVector, null);
 
-		$docVector = new DocumemntVector("testDoc");
+		$docVector = new DocumentVector($dcont);
 		$this->assertEquals(count($docVector->mVSpace), $count);
 	}
 
 	/** 
 	 * @dataProvider freqProvider
 	 */
-	public function testGetFreq($dv, $term, count) {
+	public function testGetFreq($dv, $term, $count) {
 		$this->assertEquals($dv->getFreq($term), $count);
 	}
-	
+
 	//Data Providers
 
 	//This provider can be reused in the SongTest class

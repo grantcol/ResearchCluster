@@ -39,8 +39,8 @@ function getUrl( $url, $username = false , $password = false ) {
 
   return $buffer;
 }
-$test = getUrl("http://dl.acm.org/results.cfm?h=1&cfid=653548043&cftoken=15364582");
-echo $test;
+//$test = getUrl("http://dl.acm.org/results.cfm?h=1&cfid=653548043&cftoken=15364582");
+//echo $test;
 //getHTML($test);
 //var_dump(getHTML($test));
 /*header('Content-type: text/plaintext');

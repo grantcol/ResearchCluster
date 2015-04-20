@@ -21,10 +21,29 @@ function buildRequest() {
 	return "http://ieeexplore.ieee.org/gateway/ipsSearch.jsp?querytext=java&au=Wang&hc=10&rs=11&sortfield=ti&sortorder=asc";
 }
 
-$req = buildRequest();
+function linkify($str) {
+	echo $str;
+	$title = explode(" ", $str);
+	echo $title;
+	$lTitle = "";
+	foreach($title as $word)
+	{
+		$lTitle .= "<a href='cloud.php?word=".$word."'>".$word."</a> ";
+	}
+	return $lTitle;
+}
+
+echo linkify("hello there i am a robot");
+/*$req = buildRequest();
 $response = execRequest( $req );
 $xml = new SimpleXMLElement($response);
-var_dump($xml, true);
+foreach($xml->document as $doc)
+{
+	echo $doc->title."\n";
+	echo $doc->authors;
+}*/
+//var_dump($xml, true);
+
 /*foreach($xml as $ent)
 {
 	echo $ent;

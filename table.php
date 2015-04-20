@@ -1,4 +1,13 @@
 <!-- index.php -->
+<?php 
+  //recive some result data from SESSION
+include 'php/funcs.php';
+
+$word = $_GET["word"];
+$req = buildRequest( $word );
+$response = execRequest( $req );
+$xml = new SimpleXMLElement($response);
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -46,7 +55,7 @@
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="#">Home</a></li>
+            <li role="presentation" class="active"><a href="index.php">Home</a></li>
             <li role="presentation"><a href="https://github.com/grantcol/ResearchCluster">About</a></li>
           </ul>
         </nav>
@@ -78,12 +87,26 @@
           </form>
       </div>-->
       <table id="result_table" class="table table-hover table-condensed">
-        <tr><td>1.</td><td>
-          <p>Title</p>
-          <p>Author</p>
-          <p>Journal</p>
-          <p>PDF LINK</p>
-        </td></tr>
+        <?php
+        $count = 0;
+        foreach($xml->document as $doc)
+        {
+          echo "<tr><td>".$count.".</td><td>";
+          echo "<p>".linkify($doc->title)."</p>";
+          $a_str = "<p>";
+          $authors = explode(";", $doc->authors);
+          foreach($authors as $a) {
+            $last = explode(",", $a);
+            $a_str .= "<a href='cloud.php?type=auth&word=".$last[0]."'>".$a."</a>";
+          }
+          echo $a_str."</p>";
+          echo "<p>IEEE</p>";
+          echo "<p>".$doc->pubtitle."</p>";
+          echo "<p><a href=".$doc->pdf.">PDF</a></p>";
+          echo "</td></tr>";
+          $count++;
+        }
+        ?>
       </table>
 
       <footer class="footer">

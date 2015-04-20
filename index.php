@@ -117,6 +117,7 @@
     $("#search_btn").click(function(){
       NProgress.start();
        var q = $("#searchField").val();
+       console.log(q);
         $.ajax({ 
           url : 'php/request_local.php',
           type : 'POST',
@@ -124,6 +125,7 @@
           success : function(data) {
             console.log(data);
             data = JSON.parse(data);
+            console.log(data);
             $("#word_cloud").html(data);
             NProgress.done();
           },
