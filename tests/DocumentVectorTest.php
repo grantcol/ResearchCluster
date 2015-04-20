@@ -1,6 +1,6 @@
 <?php 
 
-class DocumentVector
+/*class DocumentVector
 {
 	public $mVSpace;
 
@@ -13,7 +13,7 @@ class DocumentVector
 	}
 
 	function getFreq($term) { return $this->mVSpace[$term]; }
-}
+}*/
 
 class DocumentVectorTest extends PHPUnit_Framework_TestCase
 {
@@ -24,7 +24,7 @@ class DocumentVectorTest extends PHPUnit_Framework_TestCase
 		$docVector = null;
 		$this->assertEquals($docVector, null);
 
-		$docVector = new Documemnt("testDoc");
+		$docVector = new DocumemntVector("testDoc");
 		$this->assertEquals(count($docVector->mVSpace), $count);
 	}
 

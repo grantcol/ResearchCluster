@@ -1,8 +1,7 @@
 <?php 
-//request_local.php
-include "funcs.php";
+include "Document.php";
 
-/*function cluster($documents) {
+function cluster($documents) {
 	//given a document cluster return an ordered list
 	$cluster = new DocumentCluster();
 	$cluster->addDocuments($documents);
@@ -26,10 +25,12 @@ function getWordCloud($cluster_w) {
 	}
 	return $cloud;
 }
+
 function getSize($freq){
 	if($freq > 1) return $freq/2;
 	else if($freq <= 1) return 10;
 }
+
 function getTestDocuments() {
 	$dim;
 	if($query == "Machine Learning"){
@@ -52,11 +53,5 @@ function getTestDocuments() {
 		$docs[] = $doc;
 	}
 	return $docs;
-}*/
-
-$query = $_POST["query"];
-$r = cluster(getTestDocuments());
-$cloud = getWordCloud($r);
-echo json_encode($cloud);
-
+}
 ?>
